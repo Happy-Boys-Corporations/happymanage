@@ -13,8 +13,8 @@
         <div class="sidebar-user">
             <img src="public/avatar.png" alt="User Avatar" class="user-avatar">
             <div>
-                <div class="user-name">Happy UI</div>
-                <div class="user-email">happyui@demo.com</div>
+                <div class="user-name">Admin Quack</div>
+                <div class="user-email">quack@ecoins.com</div>
             </div>
         </div>
         <nav class="sidebar-nav">
@@ -47,8 +47,8 @@
             <div class="page-header">
                 <div><h1>Dashboard</h1><p>Overview of your resource consumption and sustainability metrics</p></div>
                 <div class="header-actions">
-                    <input type="date" id="date-picker" class="btn btn-secondary">
-                    <button class="btn btn-primary"><img src="public/download.png" alt="icon">Export Report</button>
+                    <input type="date" id="date-picker-dashboard" class="btn btn-secondary">
+                    <button class="btn btn-primary" id="export-report-btn"><img src="public/download.png" alt="icon">Export Report</button>
                 </div>
             </div>
             <div class="stats-container" id="dashboard-stats"></div>
@@ -75,8 +75,8 @@
             <div class="page-header">
                 <div><h1>Resource Management</h1><p>Detailed view of resource consumption</p></div>
                 <div class="header-actions">
-                    <button class="btn btn-secondary"><img src="public/calendar.svg" alt="icon">Daily</button>
-                    <button class="btn btn-secondary">All Resources</button>
+                    <input type="date" id="date-picker-resource" class="btn btn-secondary">
+                    <button class="btn btn-secondary" id="all-resources-btn">All Resources</button>
                     <button class="btn btn-primary" id="add-resource-btn"><img src="public/add.png" alt="icon">Add Resource</button>
                 </div>
             </div>
@@ -94,7 +94,7 @@
             <div class="page-header">
                 <div><h1>Analytics</h1><p>Track, categorize, and find opportunities to reduce waste</p></div>
                 <div class="header-actions">
-                    <button class="btn btn-secondary"><img src="public/calendar.svg" alt="icon">Daily</button>
+                    <input type="date" id="date-picker-analytics" class="btn btn-secondary">
                     <button class="btn btn-primary" id="add-waste-entry-btn"><img src="public/add.png" alt="icon">Add Waste Entry</button>
                 </div>
             </div>
@@ -122,7 +122,7 @@
             <div class="page-header">
                 <div><h1>Sustainability Goals</h1><p>Set, track, and manage your organization's sustainability objectives.</p></div>
                 <div class="header-actions">
-                    <button class="btn btn-secondary">All Goals</button>
+                    <button class="btn btn-secondary" id="all-goals-btn">All Goals</button>
                     <button class="btn btn-primary" id="add-goal-btn"><img src="public/add.png" alt="icon">Add New Goal</button>
                 </div>
             </div>
