@@ -21,25 +21,63 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===== DATE PICKER LOGIC =====
-    const datePicker = document.getElementById('date-picker');
-    if(datePicker) {
-        datePicker.valueAsDate = new Date();
-        datePicker.addEventListener('change', () => {
-            updateDataForDate();
-            renderDashboard(); 
+    function setupDatePicker(pickerId, dataArray, renderFunc) {
+        const datePicker = document.getElementById(pickerId);
+        if(datePicker) {
+            datePicker.valueAsDate = new Date();
+            datePicker.addEventListener('change', () => {
+                dataArray.forEach(stat => {
+                    if (stat.baseValue) {
+                        const randomizationFactor = (Math.random() - 0.5) * 0.2; // +/- 10%
+                        stat.value = Math.round(stat.baseValue * (1 + randomizationFactor));
+                    }
+                });
+                renderFunc();
+            });
+        }
+    }
+
+    setupDatePicker('date-picker-dashboard', dashboardStatsData, renderDashboard);
+    setupDatePicker('date-picker-resource', resourceManagementStats, renderResourceManagement);
+    setupDatePicker('date-picker-analytics', analyticsStats, renderAnalytics);
+    
+    // ===== MOCK BUTTON FUNCTIONS =====
+    const exportBtn = document.getElementById('export-report-btn');
+    if (exportBtn) {
+        exportBtn.addEventListener('click', () => {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Timestamp,Category,Description\n"; // Add header row
+            recentActivityData.forEach(row => {
+                csvContent += `${row.timestamp},${row.category},"${row.description}"\n`;
+            });
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "recent_activity_report.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         });
     }
 
-    function updateDataForDate() {
-        dashboardStatsData.forEach(stat => {
-            if (stat.baseValue) {
-                const randomizationFactor = (Math.random() - 0.5) * 0.2;
-                stat.value = Math.round(stat.baseValue * (1 + randomizationFactor));
-            }
+    const allResourcesBtn = document.getElementById('all-resources-btn');
+    if (allResourcesBtn) {
+        allResourcesBtn.addEventListener('click', () => {
+            alert("Feature to view all resources is not yet implemented.");
         });
     }
 
-    // ===== GENERIC RENDER FUNCTIONS =====
+    const allGoalsBtn = document.getElementById('all-goals-btn');
+    if (allGoalsBtn) {
+        allGoalsBtn.addEventListener('click', () => {
+            alert("Feature to view all goals is not yet implemented.");
+        });
+    }
+    
+
+    // ===== GENERIC & PAGE-SPECIFIC RENDER FUNCTIONS =====
+    // ... (This section is unchanged from the previous version)
     function renderStats(containerId, data) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -51,17 +89,45 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML += statCardHTML;
         });
     }
-
     function renderTable(containerId, data, renderRowFunc) {
         const tableBody = document.getElementById(containerId);
         if (!tableBody) return;
         tableBody.innerHTML = '';
-        data.forEach(item => {
-            tableBody.innerHTML += renderRowFunc(item);
-        });
+        data.forEach(item => { tableBody.innerHTML += renderRowFunc(item); });
     }
+    function renderDashboard() {
+        renderStats('dashboard-stats', dashboardStatsData);
+        renderTable('recent-activity-table-body', recentActivityData, item => `<tr><td>${item.timestamp}</td><td>${item.category}</td><td>${item.description}</td></tr>`);
+        renderBarChartSVG('dashboard-bar-chart-svg', dashboardBarChartData);
+        renderDonutChart('dashboard-donut-chart', donutChartData);
+    }
+    function renderResourceManagement() {
+        renderStats('resource-stats', resourceManagementStats);
+        renderTogglableResourceChart('resource-bar-chart-svg', 'resource-chart-controls', resourceBarChartData);
+    }
+    function renderAnalytics() {
+        renderStats('analytics-stats', analyticsStats);
+        renderTable('waste-sources-table-body', wasteSourcesData, item => `<tr><td>${item.process}</td><td>${item.wasteType}</td><td>${item.amount}kg</td><td>${item.method}</td><td>${item.recyclable}</td></tr>`);
+        renderDonutChart('analytics-donut-chart', donutChartData);
+        renderLineChartSVG('analytics-line-chart-svg', analyticsLineChartData);
+    }
+    function renderSustainabilityGoals() {
+        renderStats('goals-summary-stats', goalsSummaryData);
+        const progressContainer = document.getElementById('goals-progress-cards');
+        if(progressContainer) {
+            progressContainer.innerHTML = '';
+            goalsProgressData.forEach(goal => { progressContainer.innerHTML += `<div class="goal-card"><div class="card-header"><h3>${goal.label}</h3><img src="${goal.icon}" alt=""></div><div class="progress-bar-container"><div class="progress-bar" style="width: ${goal.progress}%; background-color: ${goal.color};"><span>${goal.progress}%</span></div></div></div>`; });
+        }
+        const achievementsContainer = document.getElementById('achievements-container');
+        if(achievementsContainer) {
+            achievementsContainer.innerHTML = '';
+            achievementsData.forEach(ach => { achievementsContainer.innerHTML += `<div class="achievement-card"><img src="${ach.icon}" class="achievement-card-icon" alt="achievement icon"><h4>${ach.title}</h4><p>${ach.description}</p></div>`; });
+        }
+    }
+    // ... (End of unchanged section)
 
     // ===== CHART RENDERING =====
+    // ... (This section is unchanged from the previous version)
     function renderDonutChart(containerId, data) {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -74,7 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
         gradient = gradient.slice(0, -2) + ')';
         container.innerHTML = `<div class="donut-chart" style="background: ${gradient};"></div>${legendHTML}`;
     }
-    
     function renderBarChartSVG(containerId, data) {
         const svg = document.getElementById(containerId);
         if (!svg) return;
@@ -106,7 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
             svg.innerHTML += `<polyline points="${points}" class="target-line-svg"></polyline>`;
         }
     }
-
     function renderLineChartSVG(containerId, data) {
         const svg = document.getElementById(containerId);
         if (!svg) return;
@@ -132,7 +196,6 @@ document.addEventListener('DOMContentLoaded', () => {
             svg.innerHTML += `<polyline points="${points}" class="line-chart-svg" style="stroke:${series.color}"></polyline>`;
         });
     }
-
     function renderTogglableResourceChart(svgId, controlsId, data) {
         const svg = document.getElementById(svgId);
         const controls = document.getElementById(controlsId);
@@ -172,43 +235,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         drawSingleSeries(data.series[0]);
     }
-
-    // ===== PAGE-SPECIFIC RENDER LOGIC =====
-    function renderDashboard() {
-        renderStats('dashboard-stats', dashboardStatsData);
-        renderTable('recent-activity-table-body', recentActivityData, item => `<tr><td>${item.timestamp}</td><td>${item.category}</td><td>${item.description}</td></tr>`);
-        renderBarChartSVG('dashboard-bar-chart-svg', dashboardBarChartData);
-        renderDonutChart('dashboard-donut-chart', donutChartData);
-    }
-    function renderResourceManagement() {
-        renderStats('resource-stats', resourceManagementStats);
-        renderTogglableResourceChart('resource-bar-chart-svg', 'resource-chart-controls', resourceBarChartData);
-    }
-    function renderAnalytics() {
-        renderStats('analytics-stats', analyticsStats);
-        renderTable('waste-sources-table-body', wasteSourcesData, item => `<tr><td>${item.process}</td><td>${item.wasteType}</td><td>${item.amount}kg</td><td>${item.method}</td><td>${item.recyclable}</td></tr>`);
-        renderDonutChart('analytics-donut-chart', donutChartData);
-        renderLineChartSVG('analytics-line-chart-svg', analyticsLineChartData);
-    }
-    function renderSustainabilityGoals() {
-        renderStats('goals-summary-stats', goalsSummaryData);
-        const progressContainer = document.getElementById('goals-progress-cards');
-        if(progressContainer) {
-            progressContainer.innerHTML = '';
-            goalsProgressData.forEach(goal => {
-                progressContainer.innerHTML += `<div class="goal-card"><div class="card-header"><h3>${goal.label}</h3><img src="${goal.icon}" alt=""></div><div class="progress-bar-container"><div class="progress-bar" style="width: ${goal.progress}%; background-color: ${goal.color};"><span>${goal.progress}%</span></div></div></div>`;
-            });
-        }
-        const achievementsContainer = document.getElementById('achievements-container');
-        if(achievementsContainer) {
-            achievementsContainer.innerHTML = '';
-            achievementsData.forEach(ach => {
-                achievementsContainer.innerHTML += `<div class="achievement-card"><img src="${ach.icon}" class="achievement-card-icon" alt="achievement icon"><h4>${ach.title}</h4><p>${ach.description}</p></div>`;
-            });
-        }
-    }
-
+    // ... (End of unchanged section)
+    
     // ===== MODAL LOGIC =====
+    // ... (This section is unchanged from the previous version)
     const modal = document.getElementById('form-modal'), modalTitle = document.getElementById('modal-title'), modalFormContent = document.getElementById('modal-form-content'), modalForm = document.getElementById('modal-form');
     function openModal(type) {
         let formHTML = '';
@@ -228,15 +258,12 @@ document.addEventListener('DOMContentLoaded', () => {
         modalFormContent.innerHTML = formHTML;
         modal.style.display = 'block';
     }
-
     document.getElementById('add-waste-entry-btn').onclick = () => openModal('waste');
     document.getElementById('add-resource-btn').onclick = () => openModal('resource');
     document.getElementById('add-goal-btn').onclick = () => openModal('goal');
-
     document.querySelector('.modal-close-btn').onclick = () => { modal.style.display = 'none'; };
     document.getElementById('cancel-btn').onclick = () => { modal.style.display = 'none'; };
     window.onclick = (event) => { if (event.target == modal) { modal.style.display = "none"; } };
-
     modalForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const type = modalForm.dataset.type;
@@ -252,6 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'none';
         modalForm.reset();
     });
+    // ... (End of unchanged section)
 
     // ===== INITIAL PAGE LOAD RENDER =====
     function renderAllPages() {
