@@ -7,99 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <aside class="sidebar">
-        <a href="#" class="sidebar-logo">EcoInsight</a>
-        <div class="sidebar-user">
-            <img src="public/avatar.png" alt="User Avatar" class="user-avatar">
-            <div>
-                <div class="user-name">Admin Quack</div>
-                <div class="user-email">quack@ecoins.com</div>
-            </div>
-        </div>
-        <nav class="sidebar-nav">
-            <ul>
-                <li><a href="#dashboard" class="nav-link active"><img src="public/home.svg" alt="icon">Dashboard</a></li>
-                <li><a href="#resourceManagement" class="nav-link"><img src="public/box.svg" alt="icon">Resource Management</a></li>
-                <li><a href="#analytics" class="nav-link"><img src="public/piechart.svg" alt="icon">Analytics</a></li>
-                <li><a href="#sustainabilityGoals" class="nav-link"><img src="public/material-symbols-target.svg" alt="icon">Sustainability Goals</a></li>
-            </ul>
-        </nav>
-        <div class="sidebar-logout">
-            <a href="#"><img src="public/exit.svg" alt="icon">Logout</a>
-        </div>
-    </aside>
-
     <main class="main-content">
-        <header class="top-nav">
-             <div class="search-bar">
-                <img src="public/search.svg" alt="search icon" class="search-icon">
-                <input type="text" placeholder="Search...">
-            </div>
-            <div class="user-actions">
-                <a href="#" class="action-icon profile-icon">
-                    <img src="public/avatar.png" alt="profile">
-                </a>
-            </div>
-        </header>
-
         <section id="dashboard" class="page-section active">
-            <div class="page-header">
-                <div><h1>Dashboard</h1><p>Overview of your resource consumption and sustainability metrics</p></div>
-                <div class="header-actions">
-                    <input type="date" id="date-picker-dashboard" class="btn btn-secondary">
-                    <button class="btn btn-primary" id="export-report-btn"><img src="public/download.png" alt="icon">Export Report</button>
-                </div>
-            </div>
-            <div class="stats-container" id="dashboard-stats"></div>
             <div class="charts-section">
                 <div class="chart-card">
                     <h3>Resource Usage Trends</h3>
                     <div class="bar-chart-container"><svg id="dashboard-bar-chart-svg"></svg></div>
+                    <div class="chart-legend" id="dashboard-bar-chart-legend"></div>
                 </div>
                 <div class="chart-card">
                     <h3>Waste Distribution by Type</h3>
                     <div class="donut-chart-container" id="dashboard-donut-chart"></div>
                 </div>
             </div>
-            <div class="table-card">
-                <h3>Recent Activity</h3>
-                <table class="styled-table">
-                    <thead><tr><th>Timestamp</th><th>Category</th><th>Description</th></tr></thead>
-                    <tbody id="recent-activity-table-body"></tbody>
-                </table>
-            </div>
-        </section>
+            </section>
 
         <section id="resourceManagement" class="page-section">
-            <div class="page-header">
-                <div><h1>Resource Management</h1><p>Detailed view of resource consumption</p></div>
-                <div class="header-actions">
-                    <input type="date" id="date-picker-resource" class="btn btn-secondary">
-                    <button class="btn btn-secondary" id="all-resources-btn">All Resources</button>
-                    <button class="btn btn-primary" id="add-resource-btn"><img src="public/add.png" alt="icon">Add Resource</button>
-                </div>
-            </div>
-            <div class="stats-container" id="resource-stats" style="grid-template-columns: repeat(3, 1fr);"></div>
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3>Resource Consumption Trends</h3>
-                    <div class="chart-controls" id="resource-chart-controls"></div>
-                </div>
-                <div class="bar-chart-container"><svg id="resource-bar-chart-svg"></svg></div>
-            </div>
-        </section>
+            </section>
 
         <section id="analytics" class="page-section">
-            <div class="page-header">
-                <div><h1>Analytics</h1><p>Track, categorize, and find opportunities to reduce waste</p></div>
-                <div class="header-actions">
-                    <input type="date" id="date-picker-analytics" class="btn btn-secondary">
-                    <button class="btn btn-primary" id="add-waste-entry-btn"><img src="public/add.png" alt="icon">Add Waste Entry</button>
-                </div>
-            </div>
-            <div class="stats-container" id="analytics-stats"></div>
-            <div class="charts-section">
+             <div class="charts-section">
                 <div class="chart-card">
                     <h3>Waste Trend by Type</h3>
                     <div class="donut-chart-container" id="analytics-donut-chart"></div>
@@ -107,48 +34,17 @@
                 <div class="chart-card">
                     <h3>Waste Trend by Type</h3>
                     <div class="bar-chart-container"><svg id="analytics-line-chart-svg"></svg></div>
+                    <div class="chart-legend" id="analytics-line-chart-legend"></div>
                 </div>
             </div>
-            <div class="table-card">
-                <h3>Waste Sources by Process</h3>
-                <table class="styled-table">
-                    <thead><tr><th>Process</th><th>Waste Type</th><th>Amount</th><th>Recycling Method</th><th>Recyclable</th></tr></thead>
-                    <tbody id="waste-sources-table-body"></tbody>
-                </table>
-            </div>
-        </section>
+            </section>
 
         <section id="sustainabilityGoals" class="page-section">
-            <div class="page-header">
-                <div><h1>Sustainability Goals</h1><p>Set, track, and manage your organization's sustainability objectives.</p></div>
-                <div class="header-actions">
-                    <button class="btn btn-secondary" id="all-goals-btn">All Goals</button>
-                    <button class="btn btn-primary" id="add-goal-btn"><img src="public/add.png" alt="icon">Add New Goal</button>
-                </div>
-            </div>
-            <div class="stats-container" id="goals-summary-stats"></div>
-            <div class="goals-layout" id="goals-progress-cards"></div>
-            <div class="table-card">
-                <h3>Recent Achievement</h3>
-                <div class="achievements-container" id="achievements-container"></div>
-            </div>
-        </section>
+            </section>
     </main>
-
+    
     <div id="form-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close-btn">&times;</span>
-            <h2 id="modal-title"></h2>
-            <form id="modal-form">
-                <div id="modal-form-content"></div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </div>
-            </form>
         </div>
-    </div>
-
     <script src="js/data.js"></script>
     <script src="js/app.js"></script>
 
