@@ -95,7 +95,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover{opacity:1}
 .form-actions{display:flex;justify-content:flex-end;gap:15px;margin-top:25px}
 @media (max-width:1200px){.stats-container{grid-template-columns:repeat(2,1fr)}.charts-section,.goals-layout,.achievements-container{grid-template-columns:1fr}}
 @media (max-width:768px){.sidebar{transform:translateX(-100%);position:fixed;z-index:200}.main-content{width:100%;margin-left:0}.page-header{flex-direction:column;gap:15px}.stats-container{grid-template-columns:1fr}.top-nav .search-bar{display:none}}
-/* Add these styles to the end of style.css */
+
+/* Add these new styles to your style.css file */
 .chart-legend {
     display: flex;
     justify-content: center;
@@ -121,7 +122,8 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover{opacity:1}
 
 .chart-legend .legend-dot.target {
     background: none;
-    border: 2px dashed var(--color-target);
-    width: 12px;
-    height: 0px;
+    border-top: 2px dashed var(--color-target);
+    border-radius: 0;
+    width: 14px;
+    height: 0;
 }
