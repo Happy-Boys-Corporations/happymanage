@@ -7,15 +7,15 @@ const dashboardStatsData = [
     { label: "Resource Efficiency", value: 85, unit: "%", trend: 4.7, icon: "public/industrial.svg", baseValue: 85 }
 ];
 const resourceManagementStats = [
-    { label: "Electricity", value: 8750, unit: "kWh", trend: -8.5, icon: "public/electric.svg" },
-    { label: "Water Consumption", value: 20, unit: "m³", trend: -6.3, icon: "public/waterbig.svg" },
-    { label: "Waste Generated", value: 1200, unit: "kg", trend: 3.2, icon: "public/recycle-sign.png" }
+    { label: "Electricity", value: 8750, unit: "kWh", trend: -8.5, icon: "public/electric.svg", baseValue: 8750 },
+    { label: "Water Consumption", value: 20, unit: "m³", trend: -6.3, icon: "public/waterbig.svg", baseValue: 20 },
+    { label: "Waste Generated", value: 1200, unit: "kg", trend: 3.2, icon: "public/recycle-sign.png", baseValue: 1200 }
 ];
 const analyticsStats = [
-    { label: "Resource Efficiency", value: 320, unit: "kWh", trend: -8.5, icon: "public/electric.svg" },
-    { label: "Water Consumption", value: 20, unit: "m³", trend: -3.2, icon: "public/waterbig.svg" },
-    { label: "Waste Recycled", value: 1200, unit: "kg", trend: 1.2, icon: "public/recycle-sign.png" },
-    { label: "Carbon Emmision", value: 85, unit: "%", trend: 4.7, icon: "public/industrial.svg" }
+    { label: "Resource Efficiency", value: 320, unit: "kWh", trend: -8.5, icon: "public/electric.svg", baseValue: 320 },
+    { label: "Water Consumption", value: 20, unit: "m³", trend: -3.2, icon: "public/waterbig.svg", baseValue: 20 },
+    { label: "Waste Recycled", value: 1200, unit: "kg", trend: 1.2, icon: "public/recycle-sign.png", baseValue: 1200 },
+    { label: "Carbon Emmision", value: 85, unit: "%", trend: 4.7, icon: "public/industrial.svg", baseValue: 85 }
 ];
 const goalsSummaryData = [
     { label: "Energy Goals", value: "3", unit: "goals", progress: 60, color: "#f59e0b", icon: "public/electric.svg" },
